@@ -11,7 +11,7 @@ from iast.utils import extend_schema_with_envcheck
 from django.http import HttpResponse
 from io import BytesIO
 from rest_framework.serializers import ValidationError
-
+from webapi.settings import SHARE_ROOT
 
 class _ProjectReportSearchQuerysSerializer(serializers.Serializer):
     id = serializers.IntegerField(default=0,
@@ -54,6 +54,11 @@ class ProjectReportDownload(UserEndPoint):
 
         report_filename = _('{}.{}').format(timestamp, record.type)
 
-        response = HttpResponse(record.file)
+        file_path = record.file
+        bin_file = open(f"{SHARE_ROOT}{file_path}", "rb")
+        file_data = bin_file.read()
+        bin_file.close()
+
+        response = HttpResponse(file_data)
         response['Content-Disposition'] = f'attachment; filename="{report_filename}"'
         return response

@@ -247,6 +247,7 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+SHARE_ROOT = os.path.join(BASE_DIR, 'share')
 MEDIA_URL = "/upload/"
 
 
